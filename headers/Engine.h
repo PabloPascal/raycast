@@ -6,6 +6,7 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory>
 
 #include "vec.h"
 #include "player.h"
