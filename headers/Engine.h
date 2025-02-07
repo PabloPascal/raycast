@@ -23,16 +23,14 @@ private:
 	int m_ScreenWidth;
 	int m_ScreenHeight;
 
-
-	std::list<sf::CircleShape> m_Objects;
+	int object_count = 0;
+	std::map<int, sf::CircleShape> m_Objects;
 
 	float m_fFov;
 
 	std::vector<sf::Vertex> lights;
 
 	Player m_player;
-
-	std::map<int, float> object_holder; //на будущее
 
 public:
 
@@ -44,7 +42,7 @@ public:
 
 	void run();
 
-	void add_obj_to_map(float radius, sf::Vector2f c_pos, sf::Color);
+	void add_circle_to_map(float radius, sf::Vector2f c_pos, sf::Color);
 
 public: //raycast and rendering
 
@@ -52,11 +50,14 @@ public: //raycast and rendering
 	
 	void render();
 	
-	float map(sf::Vector2f current_pos);
+	sf::Vector2f map(sf::Vector2f current_pos);
 
 	void Engine::RenderingObjects();
 	
-	float min_dist_to_Wall(sf::Vector2f current_pos);
+	sf::Vector2f min_dist_to_Wall(sf::Vector2f current_pos);
+
+	sf::Vector2f findNormal(sf::Vector2f currentPos);
+
 
 public: //collision
 

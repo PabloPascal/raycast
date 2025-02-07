@@ -35,11 +35,13 @@ public:
 
 	void setPos(sf::Vector2f pos);
 
-	sf::CircleShape getPlayerSprite();
+	sf::CircleShape& getPlayerSprite();
 
 	float getAngle();
 
 	float getRadius();
+
+	float getSpeed();
 
 	sf::Vector2f getDirect();
 };

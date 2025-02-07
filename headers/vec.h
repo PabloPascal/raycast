@@ -23,6 +23,8 @@ public:
 	vec2 operator/(const vec2&);
 	vec2& operator=(const vec2&);
 
+	vec2 operator*(float C);
+
 public:
 	sf::Vector2f getVector();
 

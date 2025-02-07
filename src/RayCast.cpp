@@ -12,9 +12,9 @@ sf::Vector2f Engine::rayCast(sf::Vector2f pos, sf::Vector2f dir) {
 	while (!bHit == true)
 	{
 		vTest = sf::Vector2f({ pos.x + fdelta * dir.x,pos.y + fdelta * dir.y });
-		fdelta += abs(map(vTest));
+		fdelta += abs(map(vTest).x);
 		//fdelta += 0.5;
-		if (map(vTest) <= epsilon) {
+		if (map(vTest).x <= epsilon) {
 			bHit = true;
 		}
 
@@ -51,7 +51,7 @@ void Engine::render() {
 }
 
 
-float Engine::min_dist_to_Wall(sf::Vector2f current_pos) {
+sf::Vector2f Engine::min_dist_to_Wall(sf::Vector2f current_pos) {
 
 	sf::Vector2f LEFT(m_ScreenWidth, 0);
 	sf::Vector2f Right_High(0, 0);
@@ -61,22 +61,40 @@ float Engine::min_dist_to_Wall(sf::Vector2f current_pos) {
 	float distToWalls2 = length(current_pos - Right_High);
 	float distToWalls3 = length(current_pos - Bottom);
 
-	return std::min(std::min(distToWalls1, distToWalls2), std::min(distToWalls2, distToWalls3));
+	return { std::min(std::min(distToWalls1, distToWalls2), std::min(distToWalls2, distToWalls3)), -1};
 }
 
 
-float Engine::map(sf::Vector2f current_pos) {
+sf::Vector2f Engine::map(sf::Vector2f current_pos) {
 
 	float min = 100000;
+	int id = 0;
+
+	sf::Vector2f res;
 
 	for (auto ob : m_Objects) {
-		if (length(current_pos - ob.getPosition()) < min) {
-			min = length(current_pos - ob.getPosition()) - ob.getRadius();
-
+		if (length(current_pos - ob.second.getPosition()) < min) {
+			min = length(current_pos - ob.second.getPosition()) - ob.second.getRadius();
+			id = ob.first;
 		}
 	}
 
 	//std::cout << std::min(min, min_dist_to_Wall(current_pos)) << std::endl;
+	sf::Vector2f min_wall = min_dist_to_Wall(current_pos);
 
-	return std::min(min, min_dist_to_Wall(current_pos));
+	if (std::min(min, min_wall.x) == min_wall.x) return min_wall;
+
+	return { min, (float)id };
+}
+
+
+
+sf::Vector2f Engine::findNormal(sf::Vector2f currentPos) {
+
+	int id = map(currentPos).y;
+	vec2 normal = currentPos - m_Objects[id].getPosition();
+
+	normal = normal * (1/length(normal));
+
+	return normal.getVector();
 }

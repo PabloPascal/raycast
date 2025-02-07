@@ -43,52 +43,54 @@ void Engine::run() {
 
 		m_player.update(m_window, dt);
 
-		//collision(dt);
+		collision(dt);
 
 		m_window.clear();
 
 		RenderingObjects();
 		render();
-
 		m_window.draw(&lights[0], lights.size(), sf::Lines);
 		m_window.draw(m_player.getPlayerSprite());
+
 		m_window.display();
 	}
 
 }
 
 
-void Engine::add_obj_to_map(float radius, sf::Vector2f c_pos, sf::Color color){
+void Engine::add_circle_to_map(float radius, sf::Vector2f c_pos, sf::Color color){
 
-	sf::CircleShape object(radius);
+	sf::CircleShape circle(radius);
 
-	object.setOrigin(radius, radius);
-	object.setFillColor(color);
-	object.setPosition(c_pos);
+	circle.setOrigin(radius, radius);
+	circle.setFillColor(color);
+	circle.setPosition(c_pos);
 
-	m_Objects.push_back(object);
+	m_Objects.insert(std::make_pair(object_count, circle));
+	object_count++;
 }
 
 
 void Engine::RenderingObjects() {
 	for (auto ob : m_Objects) {
-		m_window.draw(ob);
+		m_window.draw(ob.second);
 	}
 }
 
 
 void Engine::collision(float dt) {
-	float epsilon = 0.1f;
 	
+	if (map(m_player.getPosition()).x < m_player.getRadius()) {
+		
+		sf::Vector2f norm = findNormal(m_player.getPosition());
 
-	
-	if (map(m_player.getPosition()) < m_player.getRadius()) {
+		m_player.getPlayerSprite().move(2*m_player.getSpeed()*norm.x * dt, 2*m_player.getSpeed()*norm.y * dt);
+		//m_player.getPlayerSprite().setPosition({ 50, 50 });
 
-		return;
-	}
-	else {
-		m_player.update(m_window, dt);
+		
 	}
 
 }
+
+
 

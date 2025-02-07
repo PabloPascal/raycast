@@ -45,6 +45,11 @@ vec2& vec2::operator=(const vec2& v) {
 }
 
 
+vec2 vec2::operator*(float C) {
+	m_vec = { m_vec.x * C, m_vec.y * C };
+	return m_vec;
+}
+
 //methods
 sf::Vector2f vec2::getVector() {
 	return m_vec;
