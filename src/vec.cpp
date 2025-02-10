@@ -88,3 +88,16 @@ float dotProd(sf::Vector2f v1, sf::Vector2f v2) {
 	return v1.x * v2.x + v1.y * v1.y;
 }
 
+
+sf::Vector2f abs(sf::Vector2f v) {
+	return sf::Vector2f(abs(v.x), abs(v.y));
+}
+
+float maxcomp(sf::Vector2f v) {
+	return std::max(v.x, v.y);
+}
+
+sf::Vector2f max(sf::Vector2f v, float p) {
+	if (std::max(v.x, v.y) > p) return v;
+	else return { p, 0 };
+}

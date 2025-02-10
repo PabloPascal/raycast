@@ -43,6 +43,8 @@ void Engine::run() {
 
 		m_player.update(m_window, dt);
 
+		
+
 		collision(dt);
 
 		m_window.clear();
@@ -66,15 +68,35 @@ void Engine::add_circle_to_map(float radius, sf::Vector2f c_pos, sf::Color color
 	circle.setFillColor(color);
 	circle.setPosition(c_pos);
 
-	m_Objects.insert(std::make_pair(object_count, circle));
+	m_Circles.insert(std::make_pair(object_count, circle));
 	object_count++;
 }
 
 
+void Engine::add_rect_to_map(sf::Vector2f first, sf::Vector2f second) {
+
+	object_count++;
+
+	sf::RectangleShape rect(first);
+	rect.setPosition(first);
+	rect.setSize(second);
+	rect.setOrigin(second.x / 2, second.y / 2);
+	rect.setFillColor(sf::Color::Blue);
+
+	m_Rectangles.insert(std::make_pair(object_count, rect));
+
+}
+
+
+
 void Engine::RenderingObjects() {
-	for (auto ob : m_Objects) {
+	for (auto ob : m_Circles) {
 		m_window.draw(ob.second);
 	}
+	for (auto ob : m_Rectangles) {
+		m_window.draw(ob.second);
+	}
+
 }
 
 

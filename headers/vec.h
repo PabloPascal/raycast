@@ -40,4 +40,10 @@ float dotProd(vec2 v1, vec2 v2);
 
 float dotProd(sf::Vector2f v1, sf::Vector2f v2);
 
+sf::Vector2f abs(sf::Vector2f v);
+
+float maxcomp(sf::Vector2f v);
+
+sf::Vector2f max(sf::Vector2f v, float p);
+
 #endif // !VEC_H

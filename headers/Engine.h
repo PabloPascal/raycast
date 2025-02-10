@@ -24,7 +24,8 @@ private:
 	int m_ScreenHeight;
 
 	int object_count = 0;
-	std::map<int, sf::CircleShape> m_Objects;
+	std::map<int, sf::CircleShape> m_Circles;
+	std::map<int, sf::RectangleShape> m_Rectangles;
 
 	float m_fFov;
 
@@ -43,6 +44,8 @@ public:
 	void run();
 
 	void add_circle_to_map(float radius, sf::Vector2f c_pos, sf::Color);
+
+	void add_rect_to_map(sf::Vector2f first, sf::Vector2f end);
 
 public: //raycast and rendering
 
