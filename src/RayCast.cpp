@@ -9,12 +9,15 @@ sf::Vector2f Engine::rayCast(sf::Vector2f pos, sf::Vector2f dir) {
 
 	sf::Vector2f vTest;
 
+	sf::Vector2f mapRes;
+
 	while (!bHit == true)
 	{
 		vTest = sf::Vector2f({ pos.x + fdelta * dir.x,pos.y + fdelta * dir.y });
-		fdelta += abs(map(vTest).x);
+		mapRes = map(vTest);
+		fdelta += abs(mapRes.x);
 		//fdelta += 0.5;
-		if (map(vTest).x <= epsilon) {
+		if (mapRes.x <= epsilon) {
 			bHit = true;
 		}
 
@@ -23,6 +26,8 @@ sf::Vector2f Engine::rayCast(sf::Vector2f pos, sf::Vector2f dir) {
 		}
 
 	}
+
+	currentID = (int)mapRes.y;
 
 	return vTest;
 }
@@ -36,7 +41,7 @@ void Engine::render() {
 	lights.clear();
 
 	for (int j = 0; j < 30; j++) {
-		float fRayAngle = (m_fCameraAngle - m_fFov / 2.f) + (float)j / (100.f) * m_fFov;
+		float fRayAngle = (m_fCameraAngle - m_fFov / 2.f) + (float)j / (30.f) * m_fFov;
 
 
 		lights.push_back(sf::Vertex());
@@ -111,7 +116,6 @@ sf::Vector2f Engine::map(sf::Vector2f current_pos) {
 		sf::Vector2f R = { ob.second.getSize().x / 2.f, ob.second.getSize().y / 2.f };
 
 		if (boxDist(current_pos, ob.second) < min) {
-			//std::cout << "dist from player = " << boxDistance(m_player.getPosition(), ob.second.getPosition() + R) <<std::endl;
 
 			min = boxDist(current_pos,ob.second);
 			id = ob.first;
@@ -125,43 +129,4 @@ sf::Vector2f Engine::map(sf::Vector2f current_pos) {
 	if (std::min(min, min_wall.x) == min_wall.x) return min_wall;
 
 	return { min, (float)id };
-}
-
-
-sf::Vector2f boxNormal(const sf::RectangleShape& box,sf::Vector2f pos) {
-	float x_b = box.getPosition().x;
-	float y_b = box.getPosition().y;
-
-	float w = box.getSize().x;
-	float h = box.getSize().y;
-
-	if (pos.x > x_b - w / 2 && pos.x < x_b + w / 2 ) {
-
-		if (pos.y - y_b >= 0) return { 0, 1 };
-		else return { 0, -1 };
-	}
-
-	if (pos.y > y_b - h && pos.y < y_b + h) {
-		if (pos.x - x_b > 0) return { 1,0 };
-		else return { -1,0 };
-
-	}
-
-}
-
-
-sf::Vector2f Engine::findNormal(sf::Vector2f currentPos) {
-
-	int id = map(currentPos).y;
-	
-	if (m_Circles.find(id) == m_Circles.end()) {
-		
-		return boxNormal(m_Rectangles[id], currentPos);
-
-	}
-	vec2 normal = currentPos - m_Circles[id].getPosition();
-
-	normal = normal * (1/length(normal));
-
-	return normal.getVector();
 }

@@ -7,15 +7,20 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include "vec.h"
 #include "player.h"
+#include "Button.h"
+#include "Physics.h"
+
+
 
 class Engine{
 private:
 
 	static Engine* m_engine;
-	Engine() = default;
+	[[maybe_unused]] Engine() = default;
 
 private:
 
@@ -33,11 +38,20 @@ private:
 
 	Player m_player;
 
+	int currentID;
+
+private:
+
+	Button* play_button;
+
 public:
+	static bool isPlay;
 
 	Engine(const Engine&) = delete;
 
 	static Engine* getEngine(float fFov, int Width, int Height);
+
+	~Engine();
 
 public:
 
@@ -47,24 +61,27 @@ public:
 
 	void add_rect_to_map(sf::Vector2f first, sf::Vector2f end);
 
-public: //raycast and rendering
+private: //raycast and rendering
 
 	sf::Vector2f rayCast(sf::Vector2f pos, sf::Vector2f dir);
 	
 	void render();
 	
+	void render3D();
+
 	sf::Vector2f map(sf::Vector2f current_pos);
 
 	void Engine::RenderingObjects();
 	
 	sf::Vector2f min_dist_to_Wall(sf::Vector2f current_pos);
 
-	sf::Vector2f findNormal(sf::Vector2f currentPos);
 
 
-public: //collision
+private:
 
 	void collision(float dt);
+	sf::Vector2f findNormal(sf::Vector2f currentPos);
+
 };
 
 

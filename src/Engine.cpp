@@ -1,6 +1,8 @@
 #include "../headers/Engine.h"
 
 Engine* Engine::m_engine = nullptr;
+bool Engine::isPlay = false;
+
 
 
 Engine* Engine::getEngine(float fFov, int Width, int Height) {
@@ -8,28 +10,35 @@ Engine* Engine::getEngine(float fFov, int Width, int Height) {
 
 		m_engine = new Engine;
 
-		m_engine->m_ScreenHeight = Height;
 		m_engine->m_ScreenWidth = Width;
+		m_engine->m_ScreenHeight = Height;
 
 		m_engine->m_fFov = fFov;
-		m_engine->m_player = Player(sf::Vector2f(100,100), fFov);
+		m_engine->m_player = Player(sf::Vector2f(500,500), fFov);
 
-		m_engine->m_window.create(sf::VideoMode(Width, Height), "Raycast");
+		m_engine->m_window.create(sf::VideoMode(Width, Height), "Engine");
+
+		//button
+		m_engine->play_button = new Button({ 50, 50 }, "../fonts/textFont.ttf", 30);
+		m_engine->play_button->setText("Start");
 	}
 
 	return m_engine;
 }
 
+void isPlayHandle(){
+	Engine::isPlay = true;
+}
 
-
+#include <iostream>
 void Engine::run() {
 
 	sf::Clock clock;
 
+
 	while (m_window.isOpen()) {
 
 		sf::Time time = clock.restart();
-
 		float dt = time.asSeconds();
 
 		sf::Event event;
@@ -39,22 +48,36 @@ void Engine::run() {
 				m_window.close();
 			}
 
+			if (!Engine::isPlay) {
+				play_button->click(m_window, isPlayHandle);
+
+				m_window.clear();
+				play_button->draw(m_window);
+				m_window.display();
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				Engine::isPlay = false;
+			}
 		}
 
-		m_player.update(m_window, dt);
+		if (Engine::isPlay) {
+			m_player.update(m_window, dt);
 
-		
+			collision(dt);
 
-		collision(dt);
+			m_window.clear();
 
-		m_window.clear();
+			RenderingObjects();
+			render();
+			//render3D();
 
-		RenderingObjects();
-		render();
-		m_window.draw(&lights[0], lights.size(), sf::Lines);
-		m_window.draw(m_player.getPlayerSprite());
+			m_window.draw(&lights[0], lights.size(), sf::Lines);
+			m_window.draw(m_player.getPlayerSprite());
+			m_window.display();
 
-		m_window.display();
+		}
+
 	}
 
 }
@@ -100,18 +123,11 @@ void Engine::RenderingObjects() {
 }
 
 
-void Engine::collision(float dt) {
-	
-	if (map(m_player.getPosition()).x < m_player.getRadius()) {
-		
-		sf::Vector2f norm = findNormal(m_player.getPosition());
 
-		m_player.getPlayerSprite().move(2*m_player.getSpeed()*norm.x * dt, 2*m_player.getSpeed()*norm.y * dt);
-		//m_player.getPlayerSprite().setPosition({ 50, 50 });
 
-		
-	}
-
+Engine::~Engine() {
+	delete m_engine;
+	delete play_button;
 }
 
 

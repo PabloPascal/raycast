@@ -71,11 +71,17 @@ void Player::move(sf::RenderWindow& window, float dt) {
 		}
 	}
 
-	direct = { 0,0 };
-
 	//mouse control
-	m_fAngle = atan2f(sf::Mouse::getPosition(window).y - m_ScreenHeight / 2.0, 
+	m_fAngle = atan2f(sf::Mouse::getPosition(window).y - m_ScreenHeight / 2.0,
 					  sf::Mouse::getPosition(window).x - m_ScreenWidth / 2.0  );
+
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+	//	m_fAngle -= 5*dt;
+	//}
+	//
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+	//	m_fAngle += 5*dt;
+	//}
 
 }
 
