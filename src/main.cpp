@@ -5,7 +5,7 @@
 
 const int ScreenWidth = 1280;
 const int ScreenHeight = 720;
-float fFov = 3.1415 / 4;
+float fFov = 3.1415 / 8;
 
 int main() {
 

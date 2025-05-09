@@ -6,7 +6,7 @@ void Engine::collision(float dt) {
 
 		sf::Vector2f norm = findNormal(m_player.getPosition());
 
-		m_player.getPlayerSprite().move(1.1 * m_player.getSpeed() * norm.x * dt, 1.1 * m_player.getSpeed() * norm.y * dt);
+		m_player.getPlayerSprite().move(1.5 * m_player.getSpeed() * norm.x * dt, 1.5 * m_player.getSpeed() * norm.y * dt);
 		//m_player.getPlayerSprite().setPosition({ 50, 50 });
 
 
@@ -20,6 +20,8 @@ sf::Vector2f boxNormal(const sf::RectangleShape& box, sf::Vector2f pos) {
 
 	float w = box.getSize().x;
 	float h = box.getSize().y;
+	
+	//std::cout << "boxNormal\n";
 
 	if (pos.x > x_b - w / 2 && pos.x < x_b + w / 2) {
 
@@ -33,18 +35,23 @@ sf::Vector2f boxNormal(const sf::RectangleShape& box, sf::Vector2f pos) {
 
 	}
 
+
+	
+
 }
 
 
 sf::Vector2f Engine::findNormal(sf::Vector2f currentPos) {
-
 	int id = map(currentPos).y;
 
+	//std::cout << id << std::endl;
+	
 	if (m_Circles.find(id) == m_Circles.end()) {
 
 		return boxNormal(m_Rectangles[id], currentPos);
 
 	}
+
 	vec2 normal = currentPos - m_Circles[id].getPosition();
 
 	normal = normal * (1 / length(normal));

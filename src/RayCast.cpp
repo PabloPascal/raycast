@@ -103,21 +103,22 @@ sf::Vector2f Engine::map(sf::Vector2f current_pos) {
 	float min = 100000;
 	int id = 0;
 
+	float dist;
 
 	for (auto ob : m_Circles) {
-		if (length(current_pos - ob.second.getPosition()) < min) {
-			min = length(current_pos - ob.second.getPosition()) - ob.second.getRadius();
+		dist = length(current_pos - ob.second.getPosition());
+		if (dist < min) {
+			min = dist - ob.second.getRadius();
 			id = ob.first;
 		}
 	}
 	
+
 	for (auto ob : m_Rectangles) {
+		dist = boxDist(current_pos, ob.second);
+		if (dist < min) {
 
-		sf::Vector2f R = { ob.second.getSize().x / 2.f, ob.second.getSize().y / 2.f };
-
-		if (boxDist(current_pos, ob.second) < min) {
-
-			min = boxDist(current_pos,ob.second);
+			min = dist;
 			id = ob.first;
 			
 		}

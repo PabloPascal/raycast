@@ -67,8 +67,6 @@ private: //raycast and rendering
 	
 	void render();
 	
-	void render3D();
-
 	sf::Vector2f map(sf::Vector2f current_pos);
 
 	void Engine::RenderingObjects();

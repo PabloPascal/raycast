@@ -85,6 +85,8 @@ void Engine::run() {
 
 void Engine::add_circle_to_map(float radius, sf::Vector2f c_pos, sf::Color color){
 
+	object_count++;
+
 	sf::CircleShape circle(radius);
 
 	circle.setOrigin(radius, radius);
@@ -92,7 +94,6 @@ void Engine::add_circle_to_map(float radius, sf::Vector2f c_pos, sf::Color color
 	circle.setPosition(c_pos);
 
 	m_Circles.insert(std::make_pair(object_count, circle));
-	object_count++;
 }
 
 
