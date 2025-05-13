@@ -44,6 +44,12 @@ vec2& vec2::operator=(const vec2& v) {
 	return *this;
 }
 
+bool vec2::operator==(const vec2& other_vec)
+{
+	if (m_vec.x == other_vec.m_vec.x && m_vec.y == other_vec.m_vec.y) return true;
+	else return false;
+}
+
 
 vec2 vec2::operator*(float C) {
 	m_vec = { m_vec.x * C, m_vec.y * C };

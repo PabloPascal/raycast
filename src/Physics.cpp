@@ -35,24 +35,25 @@ sf::Vector2f boxNormal(const sf::RectangleShape& box, sf::Vector2f pos) {
 
 	}
 
-
-	
-
 }
 
 
 sf::Vector2f Engine::findNormal(sf::Vector2f currentPos) {
 	int id = map(currentPos).y;
 
-	//std::cout << id << std::endl;
+	vec2 normal;
 	
 	if (m_Circles.find(id) == m_Circles.end()) {
 
-		return boxNormal(m_Rectangles[id], currentPos);
+		normal = boxNormal(m_Rectangles[id], currentPos);
 
+		normal = normal * (1 / length(normal));
+
+
+		return normal.getVector();
 	}
 
-	vec2 normal = currentPos - m_Circles[id].getPosition();
+	normal = currentPos - m_Circles[id].getPosition();
 
 	normal = normal * (1 / length(normal));
 

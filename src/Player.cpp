@@ -35,7 +35,7 @@ void Player::update(sf::RenderWindow& window, float dt){
 }
 
 
-
+#include <iostream>
 void Player::move(sf::RenderWindow& window, float dt) {
 	float m_ScreenWidth = window.getSize().x;
 	float m_ScreenHeight = window.getSize().y;
@@ -70,6 +70,11 @@ void Player::move(sf::RenderWindow& window, float dt) {
 			player.move(-m_speed * dt, 0);
 		}
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+		std::cout << "x = " << m_pos.x << ", y = " << m_pos.y << std::endl;
+	}
+
 
 	//mouse control
 	m_fAngle = atan2f(sf::Mouse::getPosition(window).y - m_ScreenHeight / 2.0,

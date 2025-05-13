@@ -13,6 +13,7 @@ int main() {
     Engine* engine = Engine::getEngine(fFov, ScreenWidth, ScreenHeight);
 
     engine->add_rect_to_map({ 1000,500 }, { 50,50 });
+    engine->add_rect_to_map({ 10,150 }, { 1000,30 });
     engine->add_circle_to_map(50, sf::Vector2f(200, 500), sf::Color::Red);
 
     engine->run();
