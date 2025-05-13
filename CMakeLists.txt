@@ -8,14 +8,16 @@ src/Engine.cpp
 src/Player.cpp  
 src/vec.cpp 
 src/RayCast.cpp
+src/Physics.cpp
+src/Button.cpp
 
 headers/Player.h 
 headers/Engine.h 
-headers/render.h 
+headers/Button.h
 headers/vec.h 
 )
 
-set(SFML_DIR "C:/Users/zycov/Desktop/projects/libs/SFML-2.6.1/lib/cmake/SFML")
+set(SFML_DIR "external/SFML-2.6.1/lib/cmake/SFML")
 
 target_link_libraries(RayCast sfml-graphics)
 
